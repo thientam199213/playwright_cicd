@@ -12,6 +12,10 @@ pipeline {
         CI = "true"
     }
 
+    triggers {
+        cron('0 5 * * *\n30 16 * * *')
+    }
+
     stages {
         stage('Checkout') {
             steps {
