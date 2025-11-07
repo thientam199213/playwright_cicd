@@ -23,14 +23,14 @@ pipeline {
         stage('Install dependencies') {
             steps {
                 echo "Installing dependencies..."
-                sh 'npm ci'
+                bat 'npm ci'
             }
         }
 
         stage('Install Playwright browsers') {
             steps {
                 echo "Installing Playwright browsers..."
-                sh 'npx playwright install --with-deps'
+                bat 'npx playwright install --with-deps'
             }
         }
 
@@ -38,7 +38,7 @@ pipeline {
             steps {
                 echo "Running Playwright tests..."
                 // Use headless mode for CI
-                sh 'npx playwright test --reporter=html'
+                bat 'npx playwright test --reporter=html'
             }
         }
 
