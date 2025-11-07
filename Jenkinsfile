@@ -13,7 +13,7 @@ pipeline {
     }
 
     triggers {
-        cron('0 5 * * *\n30 16 * * *')
+        cron('0 5 * * *\n26 19 * * *')
     }
 
     stages {
