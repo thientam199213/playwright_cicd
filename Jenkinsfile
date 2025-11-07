@@ -15,7 +15,7 @@ pipeline {
     triggers {
         cron('''
         0 5 * * *
-        30 19 * * *
+        0 20 * * *
         ''')
     }
 
