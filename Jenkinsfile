@@ -3,7 +3,7 @@ pipeline {
 
     tools {
         // Use the NodeJS version you added in Jenkins > Manage Jenkins > Tools
-        nodejs "node18"
+        nodejs "node22"
     }
 
     environment {
@@ -16,7 +16,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 echo "Checking out source code..."
-                git branch: 'main', url: 'https://github.com/your-username/your-repo.git'
+                git branch: 'main', url: 'https://github.com/thientam199213/playwright_cicd.git'
             }
         }
 
