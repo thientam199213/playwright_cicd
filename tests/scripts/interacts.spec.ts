@@ -24,4 +24,17 @@ test.describe('Verify interactions page', () => {
             // await expect(interactionPage.page).toHaveURL(expectedUrl);
         });
     }
+
+    test("should allow me drag and drop the sortable list", async () => {
+        await interactionPage.selectMenu("Sortable");
+        await interactionPage.moveItemInTheSortable("One", "Three");
+
+        
+        try {
+            await expect(interactionPage.getItemIndexInSortable("One")).not.toBe(1);
+        } catch (e) {
+            await interactionPage.page.screenshot({ path: 'screenshots/failure.png', fullPage: true });
+            throw e; // rethrow to mark the test as failed
+        }
+    });
 });
