@@ -27,11 +27,24 @@ test.describe('Verify interactions page', () => {
 
     test("should allow me drag and drop the sortable list", async () => {
         await interactionPage.selectMenu("Sortable");
-        await interactionPage.moveItemInTheSortable("One", "Three");
+        await interactionPage.moveItemInTheSortable("demo-tabpane-list", "One", "Three");
 
-        
         try {
-            await expect(interactionPage.getItemIndexInSortable("One")).not.toBe(1);
+            await expect(interactionPage.getItemIndexInSortable("demo-tabpane-list", "One")).not.toBe(1);
+        } catch (e) {
+            await interactionPage.page.screenshot({ path: 'screenshots/failure.png', fullPage: true });
+            throw e; // rethrow to mark the test as failed
+        }
+    });
+
+    test("should allow me drag and drop the sortable Grid", async () => {
+        await interactionPage.selectMenu("Sortable");
+        await interactionPage.selectTab("demo-tab-grid");
+        await interactionPage.moveItemInTheSortable("demo-tabpane-grid", "One", "Three");
+
+
+        try {
+            await expect(interactionPage.getItemIndexInSortable("demo-tabpane-grid", "One")).not.toBe(1);
         } catch (e) {
             await interactionPage.page.screenshot({ path: 'screenshots/failure.png', fullPage: true });
             throw e; // rethrow to mark the test as failed

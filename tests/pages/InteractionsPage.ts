@@ -21,14 +21,18 @@ export class InteractionsPage {
         await this.webUI.clickOrTabElement("//*[@class='menu-list']//li//*[@class='text' and text()='" + menuName + "']");
     }
 
-    async moveItemInTheSortable(sourceItem: string, targetItem: string) {
-        const sourceLocator = "//*[@id='demo-tabpane-list']//*[contains(@class, 'list-group-item-action') and text()='" + sourceItem + "']";
-        const targetLocator = "//*[@id='demo-tabpane-list']//*[contains(@class, 'list-group-item-action') and text()='" + targetItem + "']";
+    async selectTab(tabId: string) {
+        await this.webUI.clickOrTabElement("//*[@id='" + tabId + "']");
+    }
+
+    async moveItemInTheSortable(tabId: string, sourceItem: string, targetItem: string) {
+        const sourceLocator = "//*[@id='" + tabId + "']//*[contains(@class, 'list-group-item-action') and text()='" + sourceItem + "']";
+        const targetLocator = "//*[@id='" + tabId + "']//*[contains(@class, 'list-group-item-action') and text()='" + targetItem + "']";
         await this.webUI.clickAndDragElement(sourceLocator, targetLocator);
     }
 
-    async getItemIndexInSortable(itemName: string): Promise<number> {
-        const locator = "//*[@id='demo-tabpane-list']//*[contains(@class, 'list-group-item-action')]";
+    async getItemIndexInSortable(tabId: string, itemName: string): Promise<number> {
+        const locator = "//*[@id='" + tabId + "']//*[contains(@class, 'list-group-item-action')]";
         return await this.webUI.evaluateIndex(locator, itemName);
     }
 }
