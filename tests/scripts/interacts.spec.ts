@@ -54,7 +54,7 @@ test.describe('Verify interactions page', () => {
         }
     });
 
-    test.only("should allow me to resize the restrict box", async () => {
+    test("should allow me to resize the restrict box", async () => {
         await interactionPage.selectMenu("Resizable");
         await interactionPage.moveElementInTheResizable("resizableBoxWithRestriction", 600, 350);
         // Add assertions as needed to verify the resize action
@@ -68,7 +68,7 @@ test.describe('Verify interactions page', () => {
 
     });
 
-    test.only("should allow me to resize the free box", async () => {
+    test("should allow me to resize the free box", async () => {
         await interactionPage.selectMenu("Resizable");
         await interactionPage.moveElementInTheResizable("resizable", 400, 250);
 
