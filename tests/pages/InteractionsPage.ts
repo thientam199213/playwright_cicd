@@ -35,4 +35,10 @@ export class InteractionsPage {
         const locator = "//*[@id='" + tabId + "']//*[contains(@class, 'list-group-item-action')]";
         return await this.webUI.evaluateIndex(locator, itemName);
     }
+
+    async moveElementInTheResizable(boxId: string, xOffset: number, yOffset: number) {
+        const sourceLocator = "//*[@id='" + boxId + "']//*[contains(@class, 'react-resizable-handle')]";
+        await this.webUI.resizeElement(sourceLocator, xOffset, yOffset);
+        await this.page.waitForTimeout(1000); // wait for resize to complete
+    }
 }

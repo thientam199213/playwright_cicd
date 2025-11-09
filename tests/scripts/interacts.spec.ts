@@ -1,11 +1,14 @@
 import test, { expect } from "@playwright/test";
 import { InteractionsPage } from "../pages/InteractionsPage";
+import { WebUI } from "../utils/webUI";
 
 test.describe('Verify interactions page', () => {
     let interactionPage: InteractionsPage;
+    let webUI: WebUI
 
     test.beforeEach(async ({ page }) => {
         interactionPage = new InteractionsPage(page);
+        webUI = new WebUI(page);
         await interactionPage.goto();
     });
     const testCases = [
@@ -49,5 +52,32 @@ test.describe('Verify interactions page', () => {
             await interactionPage.page.screenshot({ path: 'screenshots/failure.png', fullPage: true });
             throw e; // rethrow to mark the test as failed
         }
+    });
+
+    test.only("should allow me to resize the restrict box", async () => {
+        await interactionPage.selectMenu("Resizable");
+        await interactionPage.moveElementInTheResizable("resizableBoxWithRestriction", 600, 350);
+        // Add assertions as needed to verify the resize action
+
+        await webUI.getElementStyleProperty("//*[@id='resizableBoxWithRestriction']", "width").then((width) => {
+            expect(parseInt(width)).toBe(500);
+        });
+        await webUI.getElementStyleProperty("//*[@id='resizableBoxWithRestriction']", "height").then((height) => {
+            expect(parseInt(height)).toBe(300);
+        });
+
+    });
+
+    test.only("should allow me to resize the free box", async () => {
+        await interactionPage.selectMenu("Resizable");
+        await interactionPage.moveElementInTheResizable("resizable", 400, 250);
+
+        await webUI.getElementStyleProperty("//*[@id='resizable']", "width").then((width) => {
+            expect(parseInt(width)).toBe(600);
+        });
+        await webUI.getElementStyleProperty("//*[@id='resizable']", "height").then((height) => {
+            expect(parseInt(height)).toBe(450);
+        });
+
     });
 });

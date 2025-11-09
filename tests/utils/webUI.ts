@@ -60,4 +60,69 @@ export class WebUI {
         }
         return index;
     }
+
+    async resizeBoxElement(boxLocator: string, offsetX: number, offsetY: number): Promise<void> {
+        const handle = await this.page.locator(boxLocator);
+        await handle.waitFor({ state: 'visible' });
+        // handle.dragTo(handle, { targetPosition: { x: offsetX, y: offsetY } });
+        const box = await handle.boundingBox();
+        if (!box) throw new Error("Handle bounding box not found");
+
+        await this.page.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
+        await this.page.mouse.down();
+        await this.page.mouse.move(box.x + 300, box.y + 150, { steps: 10 }); // drag
+        await this.page.mouse.up();
+    }
+
+    /**
+     * Resize an element by dragging its resize handle.
+     * @param handleLocator XPath or CSS selector of the resize handle.
+     * @param dx Offset in X direction (positive = right, negative = left).
+     * @param dy Offset in Y direction (positive = down, negative = up).
+     */
+    async resizeElement(handleLocator: string, dx: number, dy: number): Promise<void> {
+        const handle = this.page.locator(handleLocator);
+
+        // Ensure handle exists and visible
+        await handle.waitFor({ state: "visible" });
+        await handle.scrollIntoViewIfNeeded();
+        await this.page.waitForLoadState("domcontentloaded");
+
+        const box = await handle.boundingBox();
+        if (!box) {
+            throw new Error(`Resize handle not found: ${handleLocator}`);
+        }
+
+        // Start drag from the bottom-right corner (most UI libraries resize from here)
+        const startX = box.width - 2;
+        const startY = box.height - 2;
+
+        console.log(`Before resize:`, box);
+        console.log(`Dragging from (${startX}, ${startY}) with delta (${dx}, ${dy})`);
+        await this.page.waitForTimeout(1000);  // ⭐ stabilizes headless mode
+
+        // Use Playwright's built-in stable drag
+        await handle.dragTo(handle, {
+            sourcePosition: { x: startX, y: startY },
+            targetPosition: { x: startX + dx, y: startY + dy },
+            force: true,
+            timeout: 10000
+        });
+
+        // Wait for animations / layout stabilization
+        await this.page.waitForTimeout(3000);
+
+        // Log updated size
+        const after = await handle.boundingBox();
+        console.log(`After resize:`, after);
+    }
+
+
+
+    async getElementStyleProperty(locator: string, property: string): Promise<string | null> {
+        const element = await this.page.locator(locator);
+        return await element.evaluate((el, prop) => {
+            return window.getComputedStyle(el).getPropertyValue(prop);
+        }, property);
+    }
 }
