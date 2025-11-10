@@ -4,6 +4,7 @@
   "main": "index.js",
   "scripts": {
     "playwright:test": "npx playwright test",
+    "playwright:smoke": "npx playwright test -g '@smoke'",
     "playwright:headed": "npx playwright test --headed",
     "playwright:report": "npx playwright show-report",
     "playwright:test:report": "npx playwright test && npx playwright show-report",

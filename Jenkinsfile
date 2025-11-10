@@ -13,10 +13,9 @@ pipeline {
     }
 
     triggers {
-        cron('''
-        0 5 * * *
-        0 20 * * *
-        ''')
+        cron('0 5 * * *')   // 05:00 daily
+        cron('0 20 * * *')  // 20:00 daily
+        cron('30 11 * * *') // 11:30 daily
     }
 
     stages {
@@ -45,7 +44,17 @@ pipeline {
             steps {
                 echo "Running Playwright tests..."
                 // Use headless mode for CI
-                bat 'npx playwright test --reporter=html'
+                bat 'npx playwright test -g "@smoke" --reporter=html'
+            }
+        }
+
+        stage('Run Playwright regression tests') {
+            when {
+                expression { return env.RUN_REGRESSION == 'true' }
+            }
+            steps {
+                echo "Running Playwright regression tests..."
+                bat 'npx playwright test -g "@regression" --reporter=html'
             }
         }
 

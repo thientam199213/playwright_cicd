@@ -1,7 +1,7 @@
 import test, { expect } from "@playwright/test";
 
 test.describe('Verify API authentication', () => {
-    test.only('should authenticate using API and set token in local storage', async ({ page, request }) => {
+    test('@smoke should authenticate using API and set token in local storage', async ({ page, request }) => {
         // Step 1: Authenticate via API
         const response = await request.post('https://demoqa.com/Account/v1/GenerateToken', {
             data: {
@@ -19,7 +19,7 @@ test.describe('Verify API authentication', () => {
         }, token);
     });
 
-    test.only('verify the reponse format data and data type', async ({ page, request }) => {
+    test('@smoke verify the reponse format data and data type', async ({ page, request }) => {
         // Step 1: Authenticate via API
         const response = await request.post('https://demoqa.com/Account/v1/GenerateToken', {
             data: {
@@ -39,7 +39,7 @@ test.describe('Verify API authentication', () => {
         
     });
 
-    test.only('Verify authentication with wrong parameter value', async ({ page, request }) => {
+    test('Verify authentication with wrong parameter value', async ({ page, request }) => {
         // Step 1: Authenticate via API
         const response = await request.post('https://demoqa.com/Account/v1/GenerateToken', {
             data: {
@@ -56,7 +56,8 @@ test.describe('Verify API authentication', () => {
         const status = responseBody.status;
         expect(status).toBe("Failed");
     });
-    test.only('Verify authentication with empty parameter value', async ({ page, request }) => {
+
+    test('Verify authentication with empty parameter value', async ({ page, request }) => {
         let response = await request.post('https://demoqa.com/Account/v1/GenerateToken', {
             data: {
                 userName: '',

@@ -2,7 +2,7 @@ import test, { expect } from "@playwright/test";
 import { InteractionsPage } from "../pages/InteractionsPage";
 import { WebUI } from "../utils/webUI";
 
-test.describe('Verify interactions page', () => {
+test.describe('@regression Verify interactions page', () => {
     let interactionPage: InteractionsPage;
     let webUI: WebUI
 
