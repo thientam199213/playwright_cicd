@@ -76,7 +76,7 @@ pipeline {
                     allowMissing: true,
                     alwaysLinkToLastBuild: true,
                     keepAll: true,
-                    reportDir: 'playwright-report-smoke',
+                    reportDir: 'playwright-report',
                     reportFiles: 'index.html',
                     reportName: 'Smoke Test Report'
                 ])
@@ -86,7 +86,7 @@ pipeline {
                     allowMissing: true,
                     alwaysLinkToLastBuild: true,
                     keepAll: true,
-                    reportDir: 'playwright-report-regression',
+                    reportDir: 'playwright-report',
                     reportFiles: 'index.html',
                     reportName: 'Regression Test Report'
                 ])
