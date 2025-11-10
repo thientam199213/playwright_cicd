@@ -13,9 +13,11 @@ pipeline {
     }
 
     triggers {
-        cron('0 5 * * *')   // 05:00 daily
-        cron('0 20 * * *')  // 20:00 daily
-        cron('30 11 * * *') // 11:30 daily
+        cron('''
+        0 5 * * *
+        30 11 * * *
+        0 20 * * *
+        ''')
     }
 
     stages {
