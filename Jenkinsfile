@@ -66,6 +66,32 @@ pipeline {
                 archiveArtifacts artifacts: 'playwright-report/**', allowEmptyArchive: true
             }
         }
+
+        stage('Publish HTML Reports') {
+            steps {
+                echo "Publishing HTML reports..."
+                
+                // Smoke report
+                publishHTML([
+                    allowMissing: true,
+                    alwaysLinkToLastBuild: true,
+                    keepAll: true,
+                    reportDir: 'playwright-report-smoke',
+                    reportFiles: 'index.html',
+                    reportName: 'Smoke Test Report'
+                ])
+                
+                // Regression report
+                publishHTML([
+                    allowMissing: true,
+                    alwaysLinkToLastBuild: true,
+                    keepAll: true,
+                    reportDir: 'playwright-report-regression',
+                    reportFiles: 'index.html',
+                    reportName: 'Regression Test Report'
+                ])
+            }
+        }
     }
 
     post {
